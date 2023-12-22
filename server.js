@@ -4,6 +4,7 @@ const errorHandler = require("./middlewares/errorHandler");
 const cors = require("cors");
 const cookieparser = require('cookie-parser')
 const dotenv = require("dotenv").config();
+const {rateLimiterUsingThirdParty}= require('./middlewares/rateLimit');
 
 connectdb();
 
@@ -27,7 +28,7 @@ const port = process.env.PORT || 8080;
 // app.use(cors(corsOptions));
 app.use(cookieparser())
 app.use(express.json());
-
+app.use(rateLimiterUsingThirdParty);
 app.get("/",(req,res)=>{
   res.send("from express server ")
 
