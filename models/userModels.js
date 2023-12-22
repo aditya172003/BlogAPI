@@ -21,17 +21,11 @@ const userSchema = mongoose.Schema(
         type:String,
         required:[true,"Please enter user password"]
     },
-    created_at    : { type: Date, required: true, default: Date.now }
-     ,
-    tokens:[{
-        token:{
-            type:String,
-            required:true
-        }
-        }]
     
+     
+   
   },
-  {
+   {
     timestamps: true,
   }
 );

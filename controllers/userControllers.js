@@ -90,7 +90,7 @@ exports.userLogin = async (req,res) =>{
      
       
     (token)?res.status(200).send({
-              message:"login success" 
+              message:"login success" ,jwtoken:token
     }).status(200):res.status(500).json({message:"Internal server error"});
 
 
