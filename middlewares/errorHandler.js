@@ -38,6 +38,7 @@ const errorHandler = (err, req, res, next) => {
     default:
       console.log("fla")
       console.log("No Error, All good!");
+      res.status(200).json({error:"Not found"})
       break;
   }
 };

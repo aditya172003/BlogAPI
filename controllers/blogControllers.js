@@ -17,7 +17,7 @@ const getBlogs = expressAsyncHandler(async (req, res) => {
 
 //@desc Get blog
 //@route GET /api/blog/:id
-//@access public
+//@access authorized
 const getBlog = expressAsyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
   if (!blog) {
@@ -30,12 +30,14 @@ const getBlog = expressAsyncHandler(async (req, res) => {
 
 
 
+//@desc Get logged in users all blogs
+//@route GET /api/blog/users
+//@access authorized
+const getUsersBlogs = expressAsyncHandler(async (req, res) => {
 
-const getUsersBlogs = expressAsyncHandler(async(req,res)=>{
-  const blogs = await Blog.find({userId:req.rootuserId})
-  
-  if(!blogs)
-  {
+  const blogs = await Blog.find({ userId: req.rootuserId })
+
+  if (!blogs) {
     res.send(404);
     throw new Error("Blogs not found");
   }
@@ -49,12 +51,12 @@ const getUsersBlogs = expressAsyncHandler(async(req,res)=>{
 
 //@desc Create New blog
 //@route POST /api/blog:id
-//@access public
+//@access authorized
 const createBlog = expressAsyncHandler(async (req, res) => {
   console.log("The Request body is", req.body);
   const { title, description } = req.body;
   const userId = req.rootuser._id;
-  if (!title || !description||!userId) {
+  if (!title || !description || !userId) {
     res.status(400);
     throw new Error("All fields are mandatory");
   }
@@ -72,7 +74,7 @@ const createBlog = expressAsyncHandler(async (req, res) => {
 
 //@desc Update blog
 //@route PUT /api/blog:id
-//@access public
+//@access authorized
 const updateBlog = expressAsyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
   if (!blog) {
@@ -93,7 +95,7 @@ const updateBlog = expressAsyncHandler(async (req, res) => {
 
 //@desc Delete blog
 //@route DELETE /api/blog:id
-//@access public
+//@access autorized
 const deleteBlog = expressAsyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
   if (!blog) {

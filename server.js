@@ -4,10 +4,13 @@ const errorHandler = require("./middlewares/errorHandler");
 const cors = require("cors");
 const cookieparser = require('cookie-parser')
 const dotenv = require("dotenv").config();
-const {rateLimiterUsingThirdParty}= require('./middlewares/rateLimit');
+const { rateLimiterUsingThirdParty } = require('./middlewares/rateLimit');
 
 const swaggerJSdoc = require("swagger-jsdoc");
-const swaggerUI    =require("swagger-ui-express");
+const swaggerUI = require("swagger-ui-express");
+
+
+
 const options = {
   definition: {
     openapi: "3.0.0",
@@ -16,22 +19,22 @@ const options = {
       description: "This is the simple Blog curd operations api ",
       version: '1.0.0',
       contact: {
-        name:"adityam172003"
+        name: "adityam172003"
       }
     },
     servers: [
       {
         url: "https://aditya17003blog.azurewebsites.net"
-       }
+      }
       ,
       {
-      url: "http://localhost:8080"
-     }
-     
-    
-  ]
+        url: "http://localhost:8080"
+      }
+
+
+    ]
   },
-  apis: ["./routes/*.js"]
+  apis: ["./SwaggerDocs/*.js"]
 }
 
 const swaggerscep = swaggerJSdoc(options)
@@ -41,25 +44,13 @@ connectdb();
 const app = express();
 
 const port = process.env.PORT || 8080;
-app.use('/api-docs',swaggerUI.serve,swaggerUI.setup(swaggerscep))
-// var whitelist = [
-//   "http://localhost:3000",
-// ];
-// var corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
-// };
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerscep))
 
-// app.use(cors(corsOptions));
 app.use(cookieparser())
 app.use(express.json());
 app.use(rateLimiterUsingThirdParty);
-app.get("/",(req,res)=>{
+
+app.get("/", (req, res) => {
   res.send("from express server ")
 
 })
