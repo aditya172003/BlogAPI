@@ -55,12 +55,13 @@ app.get("/", (req, res) => {
 
 })
 
-
+app.use(express.static("public"));
 
 app.use("/api/blog", require("./routes/blogRoutes"));
 
 app.use("/api/user", require("./routes/userRoutes"));
 
+app.use('/api/admin',require('./routes/adminRoutes'));
 app.use(errorHandler);
 
 app.listen(port, () => {

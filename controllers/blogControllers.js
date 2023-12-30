@@ -77,6 +77,13 @@ const createBlog = expressAsyncHandler(async (req, res) => {
 //@access authorized
 const updateBlog = expressAsyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
+  if(req.role!='admin')
+  {
+    if(blog.userId!=req.rootuserId)
+    {
+      res.status(404).json({error :'Unauthorized'})
+    }
+  }
   if (!blog) {
     res.status(404);
     throw new Error("Blog not found");
@@ -98,6 +105,13 @@ const updateBlog = expressAsyncHandler(async (req, res) => {
 //@access autorized
 const deleteBlog = expressAsyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
+  if(req.role!='admin')
+  {
+    if(blog.userId!=req.rootuserId)
+    {
+      res.status(404).json({error :'Unauthorized'})
+    }
+  }
   if (!blog) {
     res.status(404);
     throw new Error("Blog not found");

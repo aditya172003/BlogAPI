@@ -124,7 +124,8 @@ exports.userLogout = async (req, res) => {
 //@route GET /api/user/getuser
 //@access private
 exports.getUser = async (req, res) => {
-    res.status(200).send(req.rootuser);
+    const user = await User.findOne({_id:req.rootuser._id})
+    res.status(200).send(user);
 }
 
 
@@ -151,3 +152,21 @@ exports.userProfileUpdate = async (req, res) => {
 }
 
 
+exports.uploadProfilePicture = async (req,res)=>{
+    const userId = req.rootuser._id;
+     
+
+    const profilepic =req.file.filename;
+
+
+    User.findOneAndUpdate({_id:userId},{$set:{profilepic}})
+    .then((resp)=>{
+        res.status(200).send("profile picture uploaded successfully");
+
+    })
+    .catch((e)=>{ 
+        res.status(500).send("internal server error");
+    })
+
+
+}
